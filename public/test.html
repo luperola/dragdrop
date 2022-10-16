@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <title>Test#1</title>
+
+    <style>
+      #draggable,
+      #draggable1,
+      #draggable2,
+      #draggable3 {
+        margin-bottom: 20px;
+        margin-left: 10px;
+        margin-top: 20px;
+        border-radius: 10px;
+        border: solid black 2px;
+        padding: 10px;
+        background-color: white;
+        width: 150px;
+        height: 100px;
+      }
+
+      .dropzone,
+      .dropzone1,
+      .dropzone2,
+      .dropzone3 {
+        width: 150px;
+        height: 100px;
+        background: rgb(192, 32, 32);
+        margin-bottom: 20px;
+        margin-left: 10px;
+        margin-top: 20px;
+        border-radius: 10px;
+      }
+
+      .row .bg {
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: url("../public/Centro-Studi-Musicali.jpg") center center;
+        opacity: 0.07;
+        width: 100%;
+        height: 100%;
+      }
+
+      .bold {
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="row no-gutters">
+      <div class="bg"></div>
+      <div
+        class="col-sm-3 d-flex flex-column justify-content-center align-items-center"
+      >
+        <div id="draggable1" draggable="true" style="margin-top: 40px">
+          Persona che non sa le strade quando va in bici
+        </div>
+        <br />
+
+        <div id="draggable2" draggable="true">
+          Persona che ogni tanto si mette a testa in giù
+        </div>
+        <br />
+        <div id="draggable3" draggable="true">
+          Persona che non sbaglia mai un congiuntivo
+        </div>
+        <br />
+        <div id="draggable" draggable="true">Persona che non usa pettini</div>
+        <br />
+      </div>
+      <br />
+      <div
+        class="col-sm-3 d-flex flex-column justify-content-center align-items-center"
+      >
+        <div
+          class="dropzone d-flex flex-column justify-content-center align-items-center"
+          id="dropzone"
+        >
+          <b class="bold">Luigi</b>
+          <span
+            id="OK1"
+            style="
+              display: none;
+              font-size: 30px;
+              font-weight: bolder;
+              color: red;
+            "
+          >
+            OK !!</span
+          >
+        </div>
+        <br />
+        <div
+          class="dropzone1 d-flex flex-column justify-content-center align-items-center"
+          id="dropzone1"
+        >
+          <b class="bold">Francesca</b>
+          <span
+            id="OK2"
+            style="
+              display: none;
+              font-size: 30px;
+              font-weight: bolder;
+              color: red;
+            "
+          >
+            OK !!</span
+          >
+        </div>
+        <br />
+        <div
+          class="dropzone2 d-flex flex-column justify-content-center align-items-center"
+          id="dropzone2"
+        >
+          <b class="bold">Piero</b>
+          <span
+            id="OK3"
+            style="
+              display: none;
+              font-size: 30px;
+              font-weight: bolder;
+              color: red;
+            "
+          >
+            OK !!</span
+          >
+        </div>
+        <br />
+        <div
+          class="dropzone3 d-flex flex-column justify-content-center align-items-center"
+          id="dropzone3"
+        >
+          <b class="bold">Silvia</b>
+          <span
+            id="OK4"
+            style="
+              display: none;
+              font-size: 30px;
+              font-weight: bolder;
+              color: red;
+            "
+          >
+            OK !!</span
+          >
+        </div>
+      </div>
+      <div
+        class="col-sm-3 d-flex flex-column justify-content-center align-items-center"
+      >
+        <!-- Mostra OK -->
+        <img
+          src="OK.jpg"
+          style="display: none; width: 300px; height: 300px"
+          id="OK"
+        />
+        <h1 style="color: red; display: none" id="writeOK"><b>GIUSTO!</b></h1>
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="btnOK"
+          style="display: none"
+          onclick="window.open('game2.html', '_blank').focus();"
+        >
+          Clicca qui per andare al prossimo test
+        </button>
+
+        <!-- Mostra primo errore -->
+        <img
+          src="numero1.jpg"
+          style="width: 150px; height: 150px; display: none"
+          id="primoNO"
+        />
+        <h1 style="color: blue; display: none; text-align: center" id="writeNO">
+          <b>UN ERRORE !</b>
+        </h1>
+
+        <!-- Mostra seconda errore -->
+        <img
+          src="numero2.jpg"
+          style="width: 150px; height: 150px; display: none"
+          id="secondoNO"
+        />
+        <h1
+          style="color: blue; display: none; text-align: center"
+          id="writesecondNO"
+        >
+          <b>2 ERRORI ! SI RICOMINCIA !</b>
+        </h1>
+      </div>
+    </div>
+    <script>
+      let count = 0;
+      let result = 0;
+      //checking if the browser is Internet Explorer
+      var isIEX = navigator.userAgent.match(/Trident/);
+
+      var doc = isIEX ? document.documentElement : document.body;
+
+      function getDocTopLeftPos() {
+        scrollTop = window.pageYOffset || doc.scrollTop;
+        scrollLeft = window.pageXOffset || doc.scrollLeft;
+
+        clientTop = doc.clientTop || 0;
+        clientLeft = doc.clientLeft || 0;
+
+        fromTop = Math.round(scrollTop - clientTop);
+        fromLeft = Math.round(scrollLeft - clientLeft);
+        //console.log("From Top: ", fromTop, "from Left:", fromLeft);
+        return { fT: fromTop, fL: fromLeft };
+      }
+
+      //get the value of the property of the specified element
+      function getElProps(el, attr) {
+        whaT_ = isIEX ? el.currentStyle : window.getComputedStyle(el);
+
+        getWhaT_ = isIEX
+          ? whaT_.getAttribute(attr)
+          : whaT_.getPropertyValue(attr);
+        return getWhaT_;
+      }
+
+      //getting the coordinates of the mouse
+      function cords(ev) {
+        if (ev.pageX == null && ev.clientX != null) {
+          var html = document.documentElement;
+          var body = document.body;
+          ev.pageX =
+            ev.clientX +
+            ((html && html.scrollLeft) || (body && body.scrollLeft) || 0) -
+            (html.clientLeft || 0);
+          ev.pageY =
+            ev.clientY +
+            ((html && html.scrollTop) || (body && body.scrollTop) || 0) -
+            (html.clientTop || 0);
+        }
+        return { x: ev.pageX, y: ev.pageY };
+      }
+
+      var x, y;
+
+      var dragZone = document.getElementById("dropzone");
+      var dragZone1 = document.getElementById("dropzone1");
+      var dragZone2 = document.getElementById("dropzone2");
+      var dragZone3 = document.getElementById("dropzone3");
+
+      //getting our element's coordinates
+      //the mouse should be between these coordinates, otherwise that wouldn't be the dropzone
+
+      //from top
+      var elTop = dragZone.getBoundingClientRect().top + getDocTopLeftPos().fT;
+      //from left
+      var elLeft = dragZone.getBoundingClientRect().left;
+      //the height of the draggable element + its top coordinate
+      var elBottom = elTop + parseInt(getElProps(dragZone, "height"));
+      //the width of the draggable element + its left coordinate
+      var elRight = elLeft + parseInt(getElProps(dragZone, "width"));
+
+      //from top
+      var elTop1 =
+        dragZone1.getBoundingClientRect().top + getDocTopLeftPos().fT;
+      //from left
+      var elLeft1 = dragZone1.getBoundingClientRect().left;
+      //the height of the draggable element + its top coordinate
+      var elBottom1 = elTop1 + parseInt(getElProps(dragZone1, "height"));
+      //the width of the draggable element + its left coordinate
+      var elRight1 = elLeft1 + parseInt(getElProps(dragZone1, "width"));
+
+      var elTop2 =
+        dragZone2.getBoundingClientRect().top + getDocTopLeftPos().fT;
+      //from left
+      var elLeft2 = dragZone2.getBoundingClientRect().left;
+      //the height of the draggable element + its top coordinate
+      var elBottom2 = elTop2 + parseInt(getElProps(dragZone2, "height"));
+      //the width of the draggable element + its left coordinate
+      var elRight2 = elLeft2 + parseInt(getElProps(dragZone2, "width"));
+
+      var elTop3 =
+        dragZone3.getBoundingClientRect().top + getDocTopLeftPos().fT;
+      //from left
+      var elLeft3 = dragZone3.getBoundingClientRect().left;
+      //the height of the draggable element + its top coordinate
+      var elBottom3 = elTop3 + parseInt(getElProps(dragZone3, "height"));
+      //the width of the draggable element + its left coordinate
+      var elRight3 = elLeft3 + parseInt(getElProps(dragZone3, "width"));
+
+      var dragElement;
+      var dragElement1;
+      var dragElement2;
+      var dragElement3;
+
+      document.getElementById("draggable").addEventListener(
+        "dragstart",
+        function (event) {
+          evt = event || window.event;
+
+          if (navigator.userAgent.match(/Firefox/))
+            event.dataTransfer.setData("text/plain", null);
+        },
+        false
+      );
+
+      document.getElementById("draggable1").addEventListener(
+        "dragstart",
+        function (event) {
+          evt = event || window.event;
+
+          if (navigator.userAgent.match(/Firefox/))
+            event.dataTransfer.setData("text/plain", null);
+        },
+        false
+      );
+
+      //document.addEventListener(
+      document.getElementById("draggable").addEventListener(
+        "dragstart",
+        function (event) {
+          evt = event || window.event;
+          //the element that is being dragged
+          dragElement = evt.target || evt.srcElement;
+
+          //make our target half transparent;
+          dragElement.style.opacity = 0.5;
+        },
+        false
+      );
+
+      document.getElementById("draggable1").addEventListener(
+        "dragstart",
+        function (event) {
+          evt = event || window.event;
+          //the element that is being dragged
+          dragElement1 = evt.target || evt.srcElement;
+
+          //make our target half transparent;
+          dragElement1.style.opacity = 0.5;
+        },
+        false
+      );
+
+      document.getElementById("draggable2").addEventListener(
+        "dragstart",
+        function (event) {
+          evt = event || window.event;
+          //the element that is being dragged
+          dragElement2 = evt.target || evt.srcElement;
+
+          //make our target half transparent;
+          dragElement2.style.opacity = 0.5;
+        },
+        false
+      );
+
+      document.getElementById("draggable3").addEventListener(
+        "dragstart",
+        function (event) {
+          evt = event || window.event;
+          //the element that is being dragged
+          dragElement3 = evt.target || evt.srcElement;
+
+          //make our target half transparent;
+          dragElement3.style.opacity = 0.5;
+        },
+        false
+      );
+      //document.addEventListener(
+      document.getElementById("draggable").addEventListener(
+        "dragend",
+        function (event) {
+          //if the dragged element was dropped at the right place
+          if (x > elLeft && x < elRight && y > elTop && y < elBottom) {
+            dragZone.style.background = "yellow";
+            document.getElementById("OK1").style.display = "inline";
+            result += 1;
+            analyzeResult();
+            console.log("result", result);
+            //dragZone.appendChild(document.getElementById("draggable"));
+            //alert("dropped on the dropzone");
+          } else {
+            //if the destination was wrong or the drag was cancelled (Esc)
+            count += 1;
+            analyzeFailure();
+            console.log("count", count);
+            //alert("dropped not on the dropzone");
+          }
+
+          //reset our element's  transparency
+          dragElement.style.opacity = 1;
+          //dragZone.style.background = "brown";
+        },
+        false
+      );
+
+      document.getElementById("draggable1").addEventListener(
+        "dragend",
+        function (event) {
+          // console.log(
+          //   x +
+          //     " " +
+          //     y +
+          //     " " +
+          //     elTop1 +
+          //     " " +
+          //     elLeft1 +
+          //     " " +
+          //     elBottom1 +
+          //     " " +
+          //     elRight1
+          // );
+          //console.log("dragend");
+          //if the dragged element was dropped at the right place
+          if (x > elLeft1 && x < elRight1 && y > elTop1 && y < elBottom1) {
+            dragZone1.style.background = "darkcyan";
+            document.getElementById("OK2").style.display = "inline";
+            result += 1;
+            analyzeResult();
+            console.log("result", result);
+            //dragZone1.appendChild(document.getElementById("draggable1"));
+            //alert("dropped on the dropzone");
+          } else {
+            //if the destination was wrong or the drag was cancelled (Esc)
+            count += 1;
+            analyzeFailure();
+            console.log("count", count);
+            //alert("dropped not on the dropzone");
+          }
+
+          //reset our element's  transparency
+          dragElement1.style.opacity = 1;
+          //dragZone.style.background = "brown";
+        },
+        false
+      );
+
+      document.getElementById("draggable2").addEventListener(
+        "dragend",
+        function (event) {
+          //if the dragged element was dropped at the right place
+          if (x > elLeft2 && x < elRight2 && y > elTop2 && y < elBottom2) {
+            dragZone2.style.background = "grey";
+            document.getElementById("OK3").style.display = "inline";
+            result += 1;
+            analyzeResult();
+            console.log("result", result);
+            // dragZone2.appendChild(document.getElementById("draggable2"));
+            // alert("dropped on the dropzone");
+          } else {
+            //if the destination was wrong or the drag was cancelled (Esc)
+            count += 1;
+            analyzeFailure();
+            console.log("count", count);
+            //alert("dropped not on the dropzone");
+          }
+
+          //reset our element's  transparency
+          dragElement2.style.opacity = 1;
+          //dragZone.style.background = "brown";
+        },
+        false
+      );
+
+      document.getElementById("draggable3").addEventListener(
+        "dragend",
+        function (event) {
+          //if the dragged element was dropped at the right place
+          if (x > elLeft3 && x < elRight3 && y > elTop3 && y < elBottom3) {
+            dragZone3.style.background = "aqua";
+            document.getElementById("OK4").style.display = "inline";
+            result += 1;
+            analyzeResult();
+            console.log("result", result);
+            // dragZone3.appendChild(document.getElementById("draggable3"));
+            // alert("dropped on the dropzone");
+          } else {
+            //if the destination was wrong or the drag was cancelled (Esc)
+            count += 1;
+            analyzeFailure();
+            console.log("count", count);
+            //alert("dropped not on the dropzone");
+          }
+
+          //reset our element's  transparency
+          dragElement3.style.opacity = 1;
+          //dragZone.style.background = "brown";
+        },
+        false
+      );
+
+      document.addEventListener(
+        //document.getElementById("draggable").addEventListener(
+        "dragover",
+        function (event) {
+          evt = event || window.event;
+
+          x = cords(evt).x;
+          y = cords(evt).y;
+
+          //console.log(x + " " + y);
+
+          //this will prevent browser's default behaviour which will allow the drop event to occur
+
+          if (evt.preventDefault) evt.preventDefault();
+          else return false;
+        },
+        false
+      );
+
+      document.addEventListener(
+        //document.getElementById("draggable").addEventListener(
+        "drop",
+        function (event) {
+          evt = event || window.event;
+
+          if (evt.preventDefault) evt.preventDefault();
+          else return false;
+        },
+        false
+      );
+
+      function analyzeResult() {
+        if (result === 4) {
+          document.getElementById("primoNO").style.display = "none";
+          document.getElementById("writeNO").style.display = "none";
+          document.getElementById("OK").style.display = "inline";
+          document.getElementById("writeOK").style.display = "inline";
+          document.getElementById("btnOK").style.display = "inline";
+        }
+      }
+
+      function analyzeFailure() {
+        if (count === 1) {
+          document.getElementById("primoNO").style.display = "inline";
+          document.getElementById("writeNO").style.display = "inline";
+        }
+        if (count === 2) {
+          document.getElementById("primoNO").style.display = "none";
+          document.getElementById("writeNO").style.display = "none";
+          document.getElementById("secondoNO").style.display = "inline";
+          document.getElementById("writesecondNO").style.display = "inline";
+          setTimeout(() => (window.location.href = "game1.html"), 1500);
+        }
+      }
+    </script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+      integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+      integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
